@@ -1,0 +1,9 @@
+menu "Example Configuration"
+
+    config ENABLE_ZIGBEE
+        bool "Enable ENABLE_ZIGBEE"
+        default n
+        help
+            Can connect to ZIGBEE devices
+
+endmenu
