@@ -5,7 +5,15 @@
 #include "ErrorCode.h"
 #include "Led.h"
 
-TimerSchedule *timerSchedule = NULL;
+TimerSchedule *TimerSchedule::getInstance()
+{
+	static TimerSchedule *timerSchedule = NULL;
+	if (!timerSchedule)
+	{
+		timerSchedule = new TimerSchedule();
+	}
+	return timerSchedule;
+}
 
 Timer::Timer(int index, int time, TimerCallbackFunc timerCallbackFunc)
 {
@@ -73,7 +81,7 @@ static void TimerThread(void *data)
 	int currentTimer, oldTimer = 0;
 	while (1)
 	{
-		currentTimer = Util::GetCurrentTimer();
+		currentTimer = Util::GetCurrentTimeInDay();
 		if (currentTimer != oldTimer)
 		{
 			// LOGI("Free memory: %d bytes, internal: %d bytes", esp_get_free_heap_size(), esp_get_free_internal_heap_size());

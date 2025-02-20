@@ -137,7 +137,8 @@ CONFIG_PARTITION_TABLE_MD5=y
 # Example Configuration
 #
 # CONFIG_ENABLE_ZIGBEE is not set
-CONFIG_USE_OLD_APP=y
+CONFIG_ENABLE_BLE=y
+#CONFIG_USE_OLD_APP=y
 # CONFIG_USE_MESSAGE_FORMAT_V2 is not set
 # end of Example Configuration
 

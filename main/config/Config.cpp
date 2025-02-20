@@ -9,8 +9,15 @@
 #include "Log.h"
 
 // #define TAG "Config"
-
-Config *config = NULL;
+Config *Config::getInstance()
+{
+	static Config *config = NULL;
+	if (!config)
+	{
+		config = new Config();
+	}
+	return config;
+}
 
 /****************************************
  *                  API                 *
@@ -52,11 +59,6 @@ static bool set_int_config_entry(const char *section, const char *name, int valu
 
 Config::Config()
 {
-	SetHost("13.214.202.131");
-	SetPort(8883);
-	SetClientId("minihub-08:d1:f9:cb:06:d4");
-	SetUsername("minihub-08:d1:f9:cb:06:d4");
-	SetPassword("ABC123456");
 }
 
 Config::~Config()
@@ -246,6 +248,10 @@ int Config::GetLocalKeepAlive()
 {
 	return localKeepAlive;
 }
+bool Config::GetSsl()
+{
+	return true;
+}
 
 string Config::GetUrlOta()
 {
@@ -358,6 +364,11 @@ bool Config::SetLocalPassword(string localPassword)
 }
 
 bool Config::SetLocalKeepAlive(int keepAlive)
+{
+	return true;
+}
+
+bool Config::SetSsl(bool ssl)
 {
 	return true;
 }

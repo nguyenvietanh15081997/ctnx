@@ -1,97 +1,148 @@
 file(GLOB srcs
-	"hc/database/*.cpp"
-  "hc/object/*.cpp"
+  "hc/database/*.cpp"
   "hc/device/*.cpp"
-  "hc/device/ble/*.cpp"
-  "hc/device/ble/module/*.cpp"
-  "hc/device/ble/element/*.cpp"
-  "hc/gateway/*.cpp"
   "hc/file/*.cpp"
-  "hc/room/*.cpp"
+  "hc/gateway/*.cpp"
   "hc/group/*.cpp"
   "hc/json/*.cpp"
+  "hc/object/*.cpp"
+  "hc/room/*.cpp"
+  "hc/rule/rule_input/*.cpp"
+  "hc/rule/rule_output/*.cpp"
   "hc/rule/*.cpp"
-  "hc/sceneBle/*.cpp"
-  "hc/sceneDelay/*.cpp"
+  "hc/scene/*.cpp"
   "hc/util/*.cpp"
-  "log/*.cpp"
   "button/*.cpp"
-  "mqtt/*.cpp"
-  "mqtt/*.c"
+  "config/*.cpp"
   "http/*.cpp"
   "led/*.cpp"
-  "uart/*.cpp"
-  "wifi/*.cpp"
-  "timer/*.cpp"
-  "sntp/*.cpp"
-  "sntp/*.c"
+  "log/*.cpp"
+  "mqtt/*.cpp"
+  "mqtt/*.c"
   "ota/*.cpp"
   "ota/*.c"
-  "config/*.cpp"
+  "sntp/*.cpp"
+  "sntp/*.c"
+  "timer/*.cpp"
+  "uart/*.cpp"
+  "wifi/*.cpp"
   "*.cpp"
 )
 
 set(incs
 	"hc"
+	"hc/database"
+	"hc/device"
+	"hc/file"
+	"hc/gateway"
+	"hc/group"
 	"hc/json"
 	"hc/object"
-	"hc/gateway"
-	"hc/file"
-	"hc/device"
-	"hc/device/ble"
-	"hc/group"
 	"hc/room"
-	"hc/sceneBle"
-	"hc/database"
 	"hc/rule"
+	"hc/rule/rule_input"
+	"hc/rule/rule_output"
+	"hc/scene"
 	"hc/util"
 	"button"
-	"mqtt"
+	"config"
 	"http"
 	"led"
 	"log"
-	"uart"
-	"wifi"
-	"timer"
-	"sntp"
+	"mqtt"
 	"ota"
-	"config")
+	"sntp"
+	"timer"
+	"uart"
+	"wifi")
 
-if(CONFIG_BLE_MESH)
+if(CONFIG_ENABLE_BLE)
 	list(APPEND srcs
-		"protocol/ble/BleProtocol.cpp"
-		"protocol/ble/esp_ble.c"
-		"protocol/ble/ble_mesh_example_init.c")
+		"hc/device/ble/*.cpp"
+  		"hc/device/ble/device/*.cpp"
+  		"hc/device/ble/module/*.cpp"
+		"hc/protocol/ble/*.cpp")
 
 	list(APPEND incs
-		"protocol/ble")
-else()
-	list(APPEND srcs
-		"hc/protocol/ble/BleProtocol.cpp")
-
-	list(APPEND incs
+		"hc/device/ble"
+  		"hc/device/ble/device"
 		"hc/protocol/ble")
+endif()
+
+if(CONFIG_ENABLE_MQTT)
+	list(APPEND srcs
+		"hc/device/mqtt/*.cpp"
+  		"hc/device/mqtt/device/*.cpp"
+  		"hc/device/mqtt/function/*.cpp"
+		"hc/protocol/mqtt/*.cpp")
+
+	list(APPEND incs
+		"hc/device/mqtt"
+  		"hc/device/mqtt/device"
+		"hc/protocol/mqtt")
 endif()
 
 if(CONFIG_ENABLE_ZIGBEE)
 	list(APPEND srcs
-		"hc/protocol/zigbee/ZigbeeProtocol.cpp"
-		"hc/device/zigbee/cluster/Attribute.cpp"
-		"hc/device/zigbee/cluster/Cluster.cpp"
-		"hc/device/zigbee/cluster/basic/ClusterBasic.cpp"
-		"hc/device/zigbee/cluster/onoff/ClusterOnoff.cpp"
-		"hc/device/zigbee/cluster/onoff/attribute/AttributeOnoff.cpp"
-		"hc/device/zigbee/DeviceZigbee.cpp"
-		"hc/device/zigbee/DeviceZigbeeOnoff.cpp"
-		"hc/device/zigbee/DeviceZigbeeTelinkOnoff.cpp")
+		"hc/device/zigbee/*.cpp"
+  		"hc/device/zigbee/device/*.cpp"
+  		"hc/device/zigbee/cluster/*.cpp"
+  		"hc/device/zigbee/cluster/basic/*.cpp"
+  		"hc/device/zigbee/cluster/basic/attribute/*.cpp"
+  		"hc/device/zigbee/cluster/humidity/*.cpp"
+  		"hc/device/zigbee/cluster/humidity/attribute*.cpp"
+  		"hc/device/zigbee/cluster/illuminance/*.cpp"
+  		"hc/device/zigbee/cluster/illuminance/attribute*.cpp"
+  		"hc/device/zigbee/cluster/level/*.cpp"
+  		"hc/device/zigbee/cluster/level/attribute*.cpp"
+  		"hc/device/zigbee/cluster/lux/*.cpp"
+  		"hc/device/zigbee/cluster/lux/attribute*.cpp"
+  		"hc/device/zigbee/cluster/onoff/*.cpp"
+  		"hc/device/zigbee/cluster/onoff/attribute*.cpp"
+  		"hc/device/zigbee/cluster/pir/*.cpp"
+  		"hc/device/zigbee/cluster/pir/attribute*.cpp"
+  		"hc/device/zigbee/cluster/status/*.cpp"
+  		"hc/device/zigbee/cluster/status/attribute*.cpp"
+  		"hc/device/zigbee/cluster/temperature/*.cpp"
+  		"hc/device/zigbee/cluster/temperature/attribute*.cpp"
+		"hc/protocol/zigbee/*.cpp")
 
 	list(APPEND incs
-		"hc/protocol/zigbee"
 		"hc/device/zigbee"
-		"hc/device/zigbee/cluster"
-		"hc/device/zigbee/cluster/basic"
-		"hc/device/zigbee/cluster/onoff"
-		"hc/device/zigbee/cluster/onoff/attribute")
+  		"hc/device/zigbee/device"
+		"hc/protocol/zigbee")
+endif()
+
+if(CONFIG_ENABLE_IR)
+	list(APPEND srcs
+		"hc/device/ir/*.cpp"
+  		"hc/device/ir/device/*.cpp"
+		"hc/protocol/ir/*.cpp")
+
+	list(APPEND incs
+		"hc/device/ir"
+  		"hc/device/ir/device"
+		"hc/protocol/ir")
+endif()
+
+if(CONFIG_ENABLE_MODBUS)
+	list(APPEND srcs
+		"hc/device/modbus/*.cpp"
+  		"hc/device/modbus/device/*.cpp"
+		"hc/protocol/modbus/*.cpp")
+
+	list(APPEND incs
+		"hc/device/modbus"
+  		"hc/device/modbus/device"
+		"hc/protocol/modbus")
+endif()
+
+if(CONFIG_ENABLE_BLE_FAST_SCAN)
+	list(APPEND srcs
+		"hc/protocol/androidBle/*.cpp")
+
+	list(APPEND incs
+		"hc/protocol/androidBle")
 endif()
 
 idf_component_register(SRCS "main.cpp" "${srcs}"

@@ -45,6 +45,7 @@ private:
 	string username;
 	string password;
 	int keepAlive;
+	bool ssl;
 
 	// local
 	string localHost;
@@ -59,9 +60,11 @@ private:
 	string checksumOta;
 	string nameOta;
 
-public:
 	Config();
 	~Config();
+
+public:
+	static Config *getInstance();
 
 	void ReadConfig();
 	void Print();
@@ -79,6 +82,7 @@ public:
 	string GetLocalUsername();
 	string GetLocalPassword();
 	int GetLocalKeepAlive();
+	bool GetSsl();
 
 	string GetUrlOta();
 	string GetChecksumOta();
@@ -97,10 +101,9 @@ public:
 	bool SetLocalUsername(string localUsername);
 	bool SetLocalPassword(string localPassword);
 	bool SetLocalKeepAlive(int keepAlive);
+	bool SetSsl(bool ssl);
 
 	bool SetUrlOta(string urlOta);
 	bool SetCheckSumOta(string checkSumOta);
 	bool SetNameOta(string nameOta);
 };
-
-extern Config *config;

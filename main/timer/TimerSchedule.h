@@ -37,6 +37,7 @@ private:
 public:
 	mutex mtx;
 	QueueHandle_t queue;
+	static TimerSchedule *getInstance();
 
 	TimerSchedule();
 	~TimerSchedule();
@@ -49,5 +50,3 @@ public:
 	int RegisterTimer(int time, Rule *rule);
 	int UnregisterTimer(int index);
 };
-
-extern TimerSchedule *timerSchedule;

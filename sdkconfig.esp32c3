@@ -142,6 +142,7 @@ CONFIG_PARTITION_TABLE_MD5=y
 # Example Configuration
 #
 # CONFIG_ENABLE_ZIGBEE is not set
+CONFIG_ENABLE_BLE=y
 # end of Example Configuration
 
 #

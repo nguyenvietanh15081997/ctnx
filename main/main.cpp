@@ -19,16 +19,10 @@
 #include "Ota.h"
 #include "Config.h"
 #include "Gateway.h"
-#include "BleProtocol.h"
 #include "ButtonSignal.h"
 #include "TimerSchedule.h"
-#include "Db.h"
-#include "FileTransfer.h"
-// #include "FileOta.h"
+#include "Database.h"
 #include "Led.h"
-#ifdef CONFIG_ENABLE_ZIGBEE
-#include "ZigbeeProtocol.h"
-#endif
 
 extern void gpio_init(void);
 
@@ -60,8 +54,7 @@ extern "C" void app_main(void)
 	Ota::init();
 	Led_init();
 
-	database = new Db();
-	database->init();
+	Database::getInstance()->init();
 	for (int i = 0; i < 5; i++)
 	{
 		SetLedInternet(true);
@@ -74,35 +67,35 @@ extern "C" void app_main(void)
 	SetLedService(true);
 	SetLedInternet(true);
 
-	config = new Config();
-	config->ReadConfig();
-	if (config->GetUrlOta() != "" && config->GetChecksumOta() != "")
-	{
-		config->SetUrlOta("");
-		config->SetCheckSumOta("");
-		Ota::startOta(config->GetNameOta(), config->GetUrlOta(), config->GetChecksumOta());
-	}
+// 	config = new Config();
+// 	config->ReadConfig();
+// 	if (config->GetUrlOta() != "" && config->GetChecksumOta() != "")
+// 	{
+// 		config->SetUrlOta("");
+// 		config->SetCheckSumOta("");
+// 		Ota::startOta(config->GetNameOta(), config->GetUrlOta(), config->GetChecksumOta());
+// 	}
 
-	buttonSignal = new ButtonSignal();
-	buttonSignal->init();
-	gpio_init();
+// 	buttonSignal = new ButtonSignal();
+// 	buttonSignal->init();
+// 	gpio_init();
 
-	timerSchedule = new TimerSchedule();
-	timerSchedule->init();
-	fileTransfer = new FileTransfer();
-	fileTransfer->init();
+// 	timerSchedule = new TimerSchedule();
+// 	timerSchedule->init();
+// 	fileTransfer = new FileTransfer();
+// 	fileTransfer->init();
 
-#ifdef CONFIG_BLE_MESH
-	bleProtocol = new BleProtocol();
-#else
-	bleProtocol = new BleProtocol(UART_NUM_1, GPIO_NUM_23, GPIO_NUM_22, 115200);
-#endif
-	bleProtocol->init();
+// #ifdef CONFIG_BLE_MESH
+// 	bleProtocol = new BleProtocol();
+// #else
+// 	bleProtocol = new BleProtocol(UART_NUM_1, GPIO_NUM_23, GPIO_NUM_22, 115200);
+// #endif
+// 	bleProtocol->init();
 
-	string mac = Wifi::GetMacAddressHasDot();
-	LOGI("mac: %s", mac.c_str());
-	gateway = new Gateway(mac, config->GetHost(), config->GetPort(), config->GetClientId(), config->GetUsername(), config->GetPassword(), config->GetKeepAlive());
-	gateway->init();
+// 	string mac = Wifi::GetMacAddressHasDot();
+// 	LOGI("mac: %s", mac.c_str());
+// 	gateway = new Gateway(mac, config->GetHost(), config->GetPort(), config->GetClientId(), config->GetUsername(), config->GetPassword(), config->GetKeepAlive());
+// 	gateway->init();
 
-	bleProtocol->InitKey();
+// 	bleProtocol->InitKey();
 }

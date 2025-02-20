@@ -87,8 +87,7 @@ static void ButtonSignalHandler(void *arg)
 					// if (!Wifi::WifiIsAPMode())
 					// {
 						led = 0;
-						if (gateway)
-							gateway->ResetFactory();
+						Gateway::getInstance()->ResetFactory();
 						Wifi::WifiStartAP();
 						esp_restart();
 					// }
