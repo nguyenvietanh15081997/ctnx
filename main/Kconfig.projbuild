@@ -6,4 +6,32 @@ menu "Example Configuration"
         help
             Can connect to ZIGBEE devices
 
+    config ENABLE_BLE
+        bool "Enable BLE feature"
+        default y
+        help
+            Can connect to BLE devices
+
+    config ENABLE_MQTT
+        bool "Enable MQTT feature"
+        default n
+        help
+            Can connect to MQTT devices
+        
+    config ENABLE_IR
+        bool "Enable Ir feature"
+        default n
+        help
+            Can connect to Ir devices
+
+    config ENABLE_MODBUS
+        bool "Enable MODBUS feature"
+        default n
+        help
+            Can connect to Modbus devices
+    config ENABLE_BLE_FAST_SCAN
+        bool "Enable Ble fast scan feature"
+        default n
+        help
+            Can connect to ble fast scan devices
 endmenu

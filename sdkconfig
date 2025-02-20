@@ -375,6 +375,11 @@ CONFIG_PARTITION_TABLE_MD5=y
 # Example Configuration
 #
 # CONFIG_ENABLE_ZIGBEE is not set
+CONFIG_ENABLE_BLE=y
+# CONFIG_ENABLE_MQTT is not set
+# CONFIG_ENABLE_IR is not set
+# CONFIG_ENABLE_MODBUS is not set
+# CONFIG_ENABLE_BLE_FAST_SCAN is not set
 # end of Example Configuration
 
 #

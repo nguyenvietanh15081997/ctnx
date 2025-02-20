@@ -25,7 +25,15 @@
 #define AP_MODE_WIFI 5
 #define MODE_SEND_UDP_BROADCAST 3
 
-ButtonSignal *buttonSignal = NULL;
+ButtonSignal *ButtonSignal::getInstance()
+{
+	static ButtonSignal *buttonSignal = NULL;
+	if (!buttonSignal)
+	{
+		buttonSignal = new ButtonSignal();
+	}
+	return buttonSignal;
+}
 
 extern int startAPTimeCount;
 static bool statusLedService = false;
@@ -86,10 +94,10 @@ static void ButtonSignalHandler(void *arg)
 				{
 					// if (!Wifi::WifiIsAPMode())
 					// {
-						led = 0;
-						Gateway::getInstance()->ResetFactory();
-						Wifi::WifiStartAP();
-						esp_restart();
+					led = 0;
+					Gateway::getInstance()->ResetFactory();
+					Wifi::WifiStartAP();
+					esp_restart();
 					// }
 					// gateway->StartUdpBroadcast();
 				}
@@ -189,11 +197,11 @@ static void gpio_task_example(void *arg)
 			{
 				if (gpio_get_level((gpio_num_t)io_num))
 				{
-					buttonSignal->OnRelease();
+					ButtonSignal::getInstance()->OnRelease();
 				}
 				else
 				{
-					buttonSignal->OnPress();
+					ButtonSignal::getInstance()->OnPress();
 				}
 			}
 		}

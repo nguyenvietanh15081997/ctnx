@@ -57,12 +57,12 @@ set(incs
 	"wifi")
 
 if(CONFIG_ENABLE_BLE)
-	list(APPEND srcs
+	file(GLOB_RECURSE BLE_SRCS
 		"hc/device/ble/*.cpp"
   		"hc/device/ble/device/*.cpp"
   		"hc/device/ble/module/*.cpp"
 		"hc/protocol/ble/*.cpp")
-
+	list(APPEND srcs ${BLE_SRCS})
 	list(APPEND incs
 		"hc/device/ble"
   		"hc/device/ble/device"
@@ -70,12 +70,12 @@ if(CONFIG_ENABLE_BLE)
 endif()
 
 if(CONFIG_ENABLE_MQTT)
-	list(APPEND srcs
+	file(GLOB_RECURSE MQTT_SRCS
 		"hc/device/mqtt/*.cpp"
   		"hc/device/mqtt/device/*.cpp"
   		"hc/device/mqtt/function/*.cpp"
 		"hc/protocol/mqtt/*.cpp")
-
+	list(APPEND srcs ${MQTT_SRCS})
 	list(APPEND incs
 		"hc/device/mqtt"
   		"hc/device/mqtt/device"
@@ -83,7 +83,7 @@ if(CONFIG_ENABLE_MQTT)
 endif()
 
 if(CONFIG_ENABLE_ZIGBEE)
-	list(APPEND srcs
+	file(GLOB_RECURSE ZIGBEE_SRCS
 		"hc/device/zigbee/*.cpp"
   		"hc/device/zigbee/device/*.cpp"
   		"hc/device/zigbee/cluster/*.cpp"
@@ -106,7 +106,7 @@ if(CONFIG_ENABLE_ZIGBEE)
   		"hc/device/zigbee/cluster/temperature/*.cpp"
   		"hc/device/zigbee/cluster/temperature/attribute*.cpp"
 		"hc/protocol/zigbee/*.cpp")
-
+	list(APPEND srcs ${ZIGBEE_SRCS})
 	list(APPEND incs
 		"hc/device/zigbee"
   		"hc/device/zigbee/device"
@@ -114,11 +114,11 @@ if(CONFIG_ENABLE_ZIGBEE)
 endif()
 
 if(CONFIG_ENABLE_IR)
-	list(APPEND srcs
+	file(GLOB_RECURSE IR_SRCS
 		"hc/device/ir/*.cpp"
   		"hc/device/ir/device/*.cpp"
 		"hc/protocol/ir/*.cpp")
-
+	list(APPEND srcs ${IR_SRCS})
 	list(APPEND incs
 		"hc/device/ir"
   		"hc/device/ir/device"
@@ -126,11 +126,11 @@ if(CONFIG_ENABLE_IR)
 endif()
 
 if(CONFIG_ENABLE_MODBUS)
-	list(APPEND srcs
+	file(GLOB_RECURSE MODBUS_SRCS
 		"hc/device/modbus/*.cpp"
   		"hc/device/modbus/device/*.cpp"
 		"hc/protocol/modbus/*.cpp")
-
+	list(APPEND srcs ${MODBUS_SRCS})
 	list(APPEND incs
 		"hc/device/modbus"
   		"hc/device/modbus/device"
@@ -138,9 +138,9 @@ if(CONFIG_ENABLE_MODBUS)
 endif()
 
 if(CONFIG_ENABLE_BLE_FAST_SCAN)
-	list(APPEND srcs
+	file(GLOB_RECURSE BLE_FAST_SRCS
 		"hc/protocol/androidBle/*.cpp")
-
+	list(APPEND srcs ${BLE_FAST_SRCS})
 	list(APPEND incs
 		"hc/protocol/androidBle")
 endif()

@@ -9,6 +9,7 @@ public:
 	volatile bool isPressed;
 	// bool isStartAP;
 	// int startAPTimeCount;
+	static ButtonSignal *getInstance();
 
 	ButtonSignal();
 	~ButtonSignal();
@@ -17,5 +18,3 @@ public:
 	void OnRelease();
 	bool GetStatus();
 };
-
-extern ButtonSignal *buttonSignal;

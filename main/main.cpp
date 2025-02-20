@@ -1,10 +1,10 @@
-/* 
+/*
 		Minihub Rạng Đông
 		TTS
 */
 
 #include "nvs_flash.h"
-
+#include "sdkconfig.h"
 #include "esp_log.h"
 #include "esp_timer.h"
 #include "sqlite3.h"
@@ -23,6 +23,26 @@
 #include "TimerSchedule.h"
 #include "Database.h"
 #include "Led.h"
+
+#ifdef CONFIG_ENABLE_BLE
+#include "BleProtocol.h"
+#endif
+
+#ifdef CONFIG_ENABLE_MQTT
+#include "MqttProtocol.h"
+#endif
+
+#ifdef CONFIG_ENABLE_ZIGBEE
+#include "ZigbeeProtocol.h"
+#endif
+
+#ifdef CONFIG_ENABLE_BLE_FAST_SCAN
+#include "AndroidBleProtocol.h"
+#endif
+
+#ifdef CONFIG_ENABLE_MODBUS
+#include "ModbusProtocol.h"
+#endif
 
 extern void gpio_init(void);
 
@@ -67,35 +87,44 @@ extern "C" void app_main(void)
 	SetLedService(true);
 	SetLedInternet(true);
 
-// 	config = new Config();
-// 	config->ReadConfig();
-// 	if (config->GetUrlOta() != "" && config->GetChecksumOta() != "")
-// 	{
-// 		config->SetUrlOta("");
-// 		config->SetCheckSumOta("");
-// 		Ota::startOta(config->GetNameOta(), config->GetUrlOta(), config->GetChecksumOta());
-// 	}
+	// 	config = new Config();
+	// 	config->ReadConfig();
+	// 	if (config->GetUrlOta() != "" && config->GetChecksumOta() != "")
+	// 	{
+	// 		config->SetUrlOta("");
+	// 		config->SetCheckSumOta("");
+	// 		Ota::startOta(config->GetNameOta(), config->GetUrlOta(), config->GetChecksumOta());
+	// 	}
 
-// 	buttonSignal = new ButtonSignal();
-// 	buttonSignal->init();
-// 	gpio_init();
+	ButtonSignal::getInstance()->init();
+	gpio_init();
 
-// 	timerSchedule = new TimerSchedule();
-// 	timerSchedule->init();
-// 	fileTransfer = new FileTransfer();
-// 	fileTransfer->init();
+	TimerSchedule::getInstance()->init();
+	// 	fileTransfer = new FileTransfer();
+	// 	fileTransfer->init();
 
-// #ifdef CONFIG_BLE_MESH
-// 	bleProtocol = new BleProtocol();
-// #else
-// 	bleProtocol = new BleProtocol(UART_NUM_1, GPIO_NUM_23, GPIO_NUM_22, 115200);
-// #endif
-// 	bleProtocol->init();
+	Gateway::getInstance()->init();
 
-// 	string mac = Wifi::GetMacAddressHasDot();
-// 	LOGI("mac: %s", mac.c_str());
-// 	gateway = new Gateway(mac, config->GetHost(), config->GetPort(), config->GetClientId(), config->GetUsername(), config->GetPassword(), config->GetKeepAlive());
-// 	gateway->init();
+#ifdef CONFIG_ENABLE_BLE
+	BleProtocol::getInstance()->init();
+	BleProtocol::getInstance()->InitKey();
+#endif
 
-// 	bleProtocol->InitKey();
+#ifdef CONFIG_ENABLE_ZIGBEE
+	ZigbeeProtocol::getInstance()->init();
+#endif
+
+#ifdef CONFIG_ENABLE_MQTT
+	mqttProtocol = new MqttProtocol();
+	mqttProtocol->init();
+#endif
+
+#ifdef CONFIG_ENABLE_BLE_FAST_SCAN
+	androidBleProtocol = new AndroidBleProtocol();
+	androidBleProtocol->init();
+#endif
+
+#ifdef CONFIG_ENABLE_MODBUS
+	ModbusProtocol::getInstance()->init();
+#endif
 }
