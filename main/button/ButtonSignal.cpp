@@ -15,6 +15,10 @@
 #include "freertos/queue.h"
 #include "driver/gpio.h"
 
+#ifdef CONFIG_ENABLE_BLE
+#include "BleProtocol.h"
+#endif
+
 #define GPIO_OUTPUT_IO_0 GPIO_NUM_3
 #define GPIO_OUTPUT_PIN_SEL (1ULL << GPIO_OUTPUT_IO_0)
 #define GPIO_INPUT_IO_0 GPIO_NUM_0
@@ -38,6 +42,7 @@ ButtonSignal *ButtonSignal::getInstance()
 extern int startAPTimeCount;
 static bool statusLedService = false;
 static bool statusLedInternet = false;
+static bool isProvision = false;
 static void ButtonSignalHandler(void *arg)
 {
 	ButtonSignal *buttonSignal = (ButtonSignal *)arg;
@@ -81,6 +86,13 @@ static void ButtonSignalHandler(void *arg)
 			if (cnt > 0)
 			{
 				SetLedService(statusLedService);
+				if (isProvision)
+				{
+					isProvision = false;
+#ifdef CONFIG_ENABLE_BLE
+					BleProtocol::getInstance()->StopScan();
+#endif
+				}
 				if (cnt >= 5 && cnt < 9)
 				{
 					if (!Wifi::WifiIsAPMode())
@@ -100,6 +112,14 @@ static void ButtonSignalHandler(void *arg)
 					esp_restart();
 					// }
 					// gateway->StartUdpBroadcast();
+				}
+				else if (cnt >= 25 && cnt <= 30)
+				{
+#ifdef CONFIG_ENABLE_BLE
+					BleProtocol::getInstance()->SetProvisioning(true);
+					BleProtocol::getInstance()->StartScan();
+					isProvision = true;
+#endif
 				}
 				cnt = 0;
 				gpio_set_level(GPIO_OUTPUT_IO_0, 0);

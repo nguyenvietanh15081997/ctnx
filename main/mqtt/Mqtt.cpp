@@ -187,8 +187,8 @@ static int checkMqttTopic(string retrieveTopic, string registerTopic)
 	vector<string> registerList = splitString(registerTopic, '/');
 	for (size_t i = 0; i < retrieveList.size(); i++)
 	{
-		if (registerList.size() < i)
-			return 0;
+		if (i >= registerList.size())
+            return 0;
 		if (registerList.at(i) == "#")
 			return 1; // OK
 		if (registerList.at(i) == "+")

@@ -250,7 +250,7 @@ int Config::GetLocalKeepAlive()
 }
 bool Config::GetSsl()
 {
-	return true;
+	return false;
 }
 
 string Config::GetUrlOta()
