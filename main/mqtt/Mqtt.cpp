@@ -104,6 +104,7 @@ int Mqtt::Unsubscribe(string topic)
 
 int Mqtt::Publish(string topic, string payload)
 {
+	LOGD("Publish topic: %s, message: %s", topic.c_str(), payload.c_str());
 	esp_mqtt_client_publish(client, topic.c_str(), payload.c_str(), payload.length(), 1, 0);
 	return 0;
 }
@@ -188,7 +189,7 @@ static int checkMqttTopic(string retrieveTopic, string registerTopic)
 	for (size_t i = 0; i < retrieveList.size(); i++)
 	{
 		if (i >= registerList.size())
-            return 0;
+			return 0;
 		if (registerList.at(i) == "#")
 			return 1; // OK
 		if (registerList.at(i) == "+")
