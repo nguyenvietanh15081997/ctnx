@@ -115,11 +115,13 @@ static void ButtonSignalHandler(void *arg)
 				}
 				else if (cnt >= 25 && cnt <= 30)
 				{
-#ifdef CONFIG_ENABLE_BLE
-					BleProtocol::getInstance()->SetProvisioning(true);
-					BleProtocol::getInstance()->StartScan();
-					isProvision = true;
-#endif
+					LOGW("Enable pair mode");
+					Json::Value pairModeJson;
+					pairModeJson["pairMode"] = false;
+					Gateway::getInstance()->GatewayAttribute(pairModeJson);
+					sleep(1);
+					pairModeJson["pairMode"] = true;
+					Gateway::getInstance()->GatewayAttribute(pairModeJson);
 				}
 				cnt = 0;
 				gpio_set_level(GPIO_OUTPUT_IO_0, 0);
