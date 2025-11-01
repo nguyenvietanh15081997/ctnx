@@ -105,7 +105,7 @@ int Mqtt::Unsubscribe(string topic)
 int Mqtt::Publish(string topic, string payload)
 {
 	LOGD("Publish topic: %s, message: %s", topic.c_str(), payload.c_str());
-	esp_mqtt_client_publish(client, topic.c_str(), payload.c_str(), payload.length(), 1, 0);
+	esp_mqtt_client_publish(client, topic.c_str(), payload.c_str(), payload.length(), 0, 0);
 	return 0;
 }
 
@@ -132,14 +132,16 @@ void Mqtt::addActionCallback(ActionCallbackFuncType1 actionCallbackFuncType1, st
 {
 	ActionCallback actionCallback(actionCallbackFuncType1, topic);
 	actionCallbacks.push_back(actionCallback);
-	Subscribe(topic);
+	if (connected)
+		Subscribe(topic);
 }
 
 void Mqtt::addActionCallback(ActionCallbackFuncType2 actionCallbackFuncType2, string topic)
 {
 	ActionCallback actionCallback(actionCallbackFuncType2, topic);
 	actionCallbacks.push_back(actionCallback);
-	Subscribe(topic);
+	if (connected)
+		Subscribe(topic);
 }
 
 void Mqtt::addActionCallback(ActionCallbackFuncType3 actionCallbackFuncType3, string topic)

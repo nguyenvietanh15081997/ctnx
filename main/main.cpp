@@ -69,10 +69,10 @@ extern "C" void app_main(void)
 		}
 	}
 
+	Led_init();
 	Wifi::init();
 	Sntp::init(Wifi::WaitConnecting());
 	Ota::init();
-	Led_init();
 
 	Database::getInstance()->init();
 	for (int i = 0; i < 5; i++)
