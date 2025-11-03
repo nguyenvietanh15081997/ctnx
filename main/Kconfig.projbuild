@@ -1,4 +1,10 @@
-menu "Example Configuration"
+menu "Minihub Configuration"
+
+    config ENABLE_LITTLEFS
+        bool "Enable use Little FS"
+        default y
+        help
+            Enable use Little FS
 
     config ENABLE_ZIGBEE
         bool "Enable ENABLE_ZIGBEE"
@@ -34,4 +40,10 @@ menu "Example Configuration"
         default n
         help
             Can connect to ble fast scan devices
+
+    config ENABLE_MATTER
+        bool "Enable matter feature"
+        default n
+        help
+            Can connect to matter devices
 endmenu

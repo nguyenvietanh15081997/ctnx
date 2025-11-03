@@ -148,7 +148,7 @@ endif()
 idf_component_register(SRCS "main.cpp" "${srcs}"
 	INCLUDE_DIRS "${incs}")
 
-# spiffs_create_partition_image(storage ../spiffs_image FLASH_IN_PROJECT)
+# littlefs_create_partition_image(storage ../spiffs_image FLASH_IN_PROJECT)
 target_compile_options(${COMPONENT_LIB} PRIVATE "-std=gnu++17")
 
 component_compile_options(-Wno-unused-variable -Wno-unused-function)

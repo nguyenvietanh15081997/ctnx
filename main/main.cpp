@@ -46,6 +46,22 @@
 
 extern void gpio_init(void);
 
+
+#include "esp_heap_caps.h"
+
+void *operator new(size_t size)
+{
+	void *ptr = heap_caps_malloc(size, MALLOC_CAP_SPIRAM);
+	if (!ptr)
+		throw std::bad_alloc();
+	return ptr;
+}
+
+void operator delete(void *ptr) noexcept
+{
+	heap_caps_free(ptr);
+}
+
 extern "C" void app_main(void)
 {
 	vTaskDelay(pdMS_TO_TICKS(100));
@@ -57,7 +73,6 @@ extern "C" void app_main(void)
 	log_set_level(XLOG_DEBUG);
 
 	srand(time(NULL));
-
 	esp_err_t err = nvs_flash_init();
 	if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND)
 	{
@@ -68,11 +83,11 @@ extern "C" void app_main(void)
 			LOGE("NVS Init error %s", esp_err_to_name(err));
 		}
 	}
-
-	Led_init();
+				
 	Wifi::init();
 	Sntp::init(Wifi::WaitConnecting());
 	Ota::init();
+	Led_init();
 
 	Database::getInstance()->init();
 	for (int i = 0; i < 5; i++)
