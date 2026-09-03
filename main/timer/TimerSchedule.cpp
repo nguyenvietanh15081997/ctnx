@@ -160,15 +160,21 @@ int TimerSchedule::RegisterTimer(int time, Rule *rule)
 
 int TimerSchedule::UnregisterTimer(int index)
 {
-	mtx.lock();
-	for (auto &timer : timerList)
+	std::lock_guard<std::mutex> lock(mtx);
+
+	for (auto it = timerList.begin(); it != timerList.end();)
 	{
+		Timer *timer = *it;
 		if (timer->GetIndex() == index)
 		{
-			timerList.erase(remove(timerList.begin(), timerList.end(), timer), timerList.end());
 			delete timer;
+			it = timerList.erase(it);
+		}
+		else
+		{
+			++it;
 		}
 	}
-	mtx.unlock();
+
 	return CODE_OK;
 }

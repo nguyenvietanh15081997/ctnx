@@ -1,8 +1,32 @@
 dependencies:
+  espressif/cmake_utilities:
+    component_hash: 351350613ceafba240b761b4ea991e0f231ac7a9f59a9ee901f751bddc0bb18f
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.1'
+    source:
+      registry_url: https://components.espressif.com
+      type: service
+    version: 0.5.3
+  espressif/esp_lcd_gc9a01:
+    component_hash: 2ccbdfa5a1762c7a8be66770b69a256d809651d6069098852d2c829648707b5b
+    dependencies:
+    - name: idf
+      require: private
+      version: '>=4.4'
+    - name: espressif/cmake_utilities
+      registry_url: https://components.espressif.com
+      require: private
+      version: 0.*
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 1.2.0
   idf:
     source:
       type: idf
-    version: 5.3.4
+    version: 5.5.5
   joltwallet/littlefs:
     component_hash: 8e12955f47e27e6070b76715a96d6c75fc2b44f069e8c33679332d9bdd3120c4
     dependencies:
@@ -13,6 +37,13 @@ dependencies:
       registry_url: https://components.espressif.com/
       type: service
     version: 1.20.1
+  lvgl/lvgl:
+    component_hash: 948bff879a345149b83065535bbc4a026ce9f47498a22881e432a264b9098015
+    dependencies: []
+    source:
+      registry_url: https://components.espressif.com/
+      type: service
+    version: 8.3.11
   nopnop2002/sqlite3:
     component_hash: 3ce2276b96e89abb22d046e73a7b4e48d186453d1323b4e7f533b76f5f7ecb2c
     dependencies: []
@@ -22,8 +53,11 @@ dependencies:
       type: git
     version: d46d82316242b52873dff8d7f7dbebee208248ef
 direct_dependencies:
+- espressif/esp_lcd_gc9a01
+- idf
 - joltwallet/littlefs
+- lvgl/lvgl
 - nopnop2002/sqlite3
-manifest_hash: 710021c3d1f1b0b1ee029f29c94aeedc5d6efbea6e2f34bf30b2ea75455b5de0
-target: esp32
+manifest_hash: 8738351316a40e3fa8977652c1e57feb0979478d81a7fdf65b00bae43a818165
+target: esp32s3
 version: 2.0.0

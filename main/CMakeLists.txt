@@ -12,13 +12,11 @@ file(GLOB srcs
   "hc/rule/*.cpp"
   "hc/scene/*.cpp"
   "hc/util/*.cpp"
-  "button/*.cpp"
   "config/*.cpp"
   "http/*.cpp"
   "led/*.cpp"
   "log/*.cpp"
   "mqtt/*.cpp"
-  "mqtt/*.c"
   "ota/*.cpp"
   "ota/*.c"
   "sntp/*.cpp"
@@ -26,6 +24,13 @@ file(GLOB srcs
   "timer/*.cpp"
   "uart/*.cpp"
   "wifi/*.cpp"
+  "LCD/*.c"
+  "peripheral/*.c"
+  "peripheral/*.cpp"
+  "UI/*.c"
+  "UI/components/*.c"
+  "UI/images/*.c"
+  "UI/screens/*.c"
   "*.cpp"
 )
 
@@ -44,7 +49,6 @@ set(incs
 	"hc/rule/rule_output"
 	"hc/scene"
 	"hc/util"
-	"button"
 	"config"
 	"http"
 	"led"
@@ -54,7 +58,13 @@ set(incs
 	"sntp"
 	"timer"
 	"uart"
-	"wifi")
+	"wifi"
+	"LCD"
+  	"peripheral"
+  	"UI"
+  	"UI/components"
+  	"UI/images"
+  	"UI/screens")
 
 if(CONFIG_ENABLE_BLE)
 	file(GLOB_RECURSE BLE_SRCS
