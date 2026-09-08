@@ -25,6 +25,7 @@ Button::Button(gpio_num_t pin, uint8_t activeLevel, bool isPull, uint16_t pressT
 {
     _pressTick = TIME_TO_TICKS(pressTimeMs, TICKS_TIME_PRESS_DEFAULT);
     _keepTick = TIME_TO_TICKS(keepTimeMs, TICKS_TIME_KEEP_DEFAULT);
+    _longKeepTick = TIME_TO_TICKS(CONFIG_LONG_KEEP_TIME_MS, 1000);
     gpio_config_t gpio_conf;
     gpio_conf.intr_type = GPIO_INTR_DISABLE;
     gpio_conf.mode = GPIO_MODE_INPUT;
@@ -118,9 +119,19 @@ void Button::handleEvent()
         // cb keeping
         notify(ButtonEvent::BUTTON_EVENT_KEEPING, _button_dev.cbInfos.usr_data);
     }
+    else if (_button_dev.event == ButtonEvent::BUTTON_EVENT_KEEPING && _button_dev.ticks >= _longKeepTick)
+    {
+        _button_dev.event = ButtonEvent::BUTTON_EVENT_LONG_KEEPING;
+        notify(ButtonEvent::BUTTON_EVENT_LONG_KEEPING, _button_dev.cbInfos.usr_data);
+    }
     else if (_button_dev.ticks == 0)
     {
-        if (_button_dev.event == ButtonEvent::BUTTON_EVENT_KEEPING)
+        if (_button_dev.event == ButtonEvent::BUTTON_EVENT_LONG_KEEPING)
+        {
+            _button_dev.event = ButtonEvent::BUTTON_EVENT_RELEASE_LONG_KEEPING;
+            notify(ButtonEvent::BUTTON_EVENT_RELEASE_LONG_KEEPING, _button_dev.cbInfos.usr_data);
+        }
+        else if (_button_dev.event == ButtonEvent::BUTTON_EVENT_KEEPING)
         {
             _button_dev.event = ButtonEvent::BUTTON_EVENT_RELEASE_KEEPING;
             // cb release keeping
@@ -273,7 +284,8 @@ void ButtonManager::btnPostEvt(ButtonEvent event, void *usr_data){
         break;
     }
     case ButtonEvent::BUTTON_EVENT_RELEASE_LONG_KEEPING:
-        std::cout << btn->name << "release long keeping" << std::endl;
+        std::cout << btn->name << " released after long keeping" << std::endl;
+        esp_event_post(BUTTON_EVENT_BASE, EVENT_BUTTON_KICK_OUT, &btn->btnIndex, 1, pdMS_TO_TICKS(10));
         break;
     
     default:

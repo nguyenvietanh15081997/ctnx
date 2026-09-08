@@ -39,6 +39,7 @@ enum ButtonEventPost{
 
 #define CONFIG_PRESS_TIME_MS     100
 #define CONFIG_KEEP_TIME_MS      3000
+#define CONFIG_LONG_KEEP_TIME_MS 10000
 
 // #define CLOCK_TIME_MS_SET_PAIR_K9B  (3*1000 - CONFIG_KEEP_TIME_MS)
 #define CLOCK_TIME_OUT_MS_KICK_OUT  (10*1000 - CONFIG_KEEP_TIME_MS)
@@ -81,6 +82,7 @@ private:
     bool _isPull;
     uint16_t _pressTick;
     uint16_t _keepTick;
+    uint16_t _longKeepTick;
     button_dev_t _button_dev;
     std::vector<Observer *> _observers;
     void notify(ButtonEvent event, void *usr_data);

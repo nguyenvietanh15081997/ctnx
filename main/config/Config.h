@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include <string.h>
+#include <string>
 
 #define STRING_VALUE_MAX_SIZE 128
 #define CONFIG_ENV "server."

@@ -31,7 +31,7 @@ char* timestr() {
 	return time_str;
 }
 
-void log_set_level(log_level_t log_level_) {
+void log_set_level_1(log_level_t log_level_) {
 	log_level = log_level_;
 }
 
@@ -39,7 +39,7 @@ void log_set_vprintf(vprintf_like_t func) {
 	s_log_print_func = func;
 }
 
-void log_write(const char* format, ...) {
+void log_writed(const char* format, ...) {
 	va_list list;
 	va_start(list, format);
 	(*s_log_print_func)(format, list);

@@ -38,11 +38,11 @@ typedef int (*vprintf_like_t)(const char *, va_list);
 
 char* timestr(void);
 
-void log_set_level(log_level_t log_level_);// {log_level = log_level_;}
+void log_set_level_1(log_level_t log_level_);// {log_level = log_level_;}
 
 void log_set_vprintf(vprintf_like_t func);
 
-void log_write(const char* format, ...) __attribute__ ((format (printf, 1, 2)));
+void log_writed(const char* format, ...) __attribute__ ((format (printf, 1, 2)));
 
 char* log_cut_str(char* full_path, uint8_t len);
 
@@ -85,11 +85,11 @@ char* log_cut_str(char* full_path, uint8_t len);
 #define XLOG_LOCAL_LEVEL  ((log_level_t) XLOG_DEFAULT_LEVEL)
 #endif
 
-#define LOGE( format, ... )  if (log_level >= XLOG_ERROR)   { log_write(XLOG_FORMAT(E, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
-#define LOGW( format, ... )  if (log_level >= XLOG_WARN)    { log_write(XLOG_FORMAT(W, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
-#define LOGI( format, ... )  if (log_level >= XLOG_INFO)    { log_write(XLOG_FORMAT(I, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
-#define LOGD( format, ... )  if (log_level >= XLOG_DEBUG)   { log_write(XLOG_FORMAT(D, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
-#define LOGV( format, ... )  if (log_level >= XLOG_VERBOSE) { log_write(XLOG_FORMAT(V, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
+#define LOGE( format, ... )  if (log_level >= XLOG_ERROR)   { log_writed(XLOG_FORMAT(E, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
+#define LOGW( format, ... )  if (log_level >= XLOG_WARN)    { log_writed(XLOG_FORMAT(W, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
+#define LOGI( format, ... )  if (log_level >= XLOG_INFO)    { log_writed(XLOG_FORMAT(I, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
+#define LOGD( format, ... )  if (log_level >= XLOG_DEBUG)   { log_writed(XLOG_FORMAT(D, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
+#define LOGV( format, ... )  if (log_level >= XLOG_VERBOSE) { log_writed(XLOG_FORMAT(V, format), timestr(), log_cut_str((char*)__FUNCTION__, FUNC_NAME_LEN), log_cut_str((char*)__FILE__, FILE_NAME_LEN), __LINE__, ##__VA_ARGS__); }
 
 #ifdef __cplusplus
 }
